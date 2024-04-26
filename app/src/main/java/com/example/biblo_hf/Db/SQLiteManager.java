@@ -23,6 +23,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public static final String TABLE_USER = "users";
     public static final String USER_ID = "id";
     public static final String USER_NAME = "name";
+    public static final String Emoji = "emojiCode";
 
     //table author
     public static final String TABLE_AUTHOR = "authors";
@@ -34,6 +35,8 @@ public class SQLiteManager extends SQLiteOpenHelper {
     public static final String TABLE_BOOK = "books";
     public static final String BOOK_ID = "id";
     public static final String BOOK_NAME = "name";
+    public static final String NB_PAGES = "nb_pages";
+    public static final String DESC = "desc";
 
     public SQLiteManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,7 +58,9 @@ public class SQLiteManager extends SQLiteOpenHelper {
                 .append(USER_ID)
                 .append(" INTEGER PRIMARY KEY AUTOINCREMENT, ")
                 .append(USER_NAME)
-                .append(" TEXT)");
+                .append(" TEXT,")
+                .append(Emoji)
+                .append(" TEXT )");
 
         sqLiteDatabase.execSQL(sql.toString());
 
@@ -73,12 +78,12 @@ public class SQLiteManager extends SQLiteOpenHelper {
                         TABLE_USER+
                         "("+
                         USER_ID+
-                        ")) "
+                        ") ON DELETE CASCADE ) "
                 );
         sqLiteDatabase.execSQL(sql2.toString());
 
         sql3 = new StringBuilder()
-                .append("CREATE TABLE " +TABLE_BOOK+ "("+BOOK_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+BOOK_NAME+" TEXT, "+ID_USER+" INTEGER,"+ID_AUTHOR+" INTEGER , FOREIGN KEY ("+ID_USER+") REFERENCES "+TABLE_USER+"("+USER_ID+"), FOREIGN KEY ("+ID_AUTHOR+") REFERENCES "+TABLE_AUTHOR+"("+AUTHOR_ID+"))"
+                .append("CREATE TABLE " +TABLE_BOOK+ "("+BOOK_ID+" INTEGER PRIMARY KEY AUTOINCREMENT, "+BOOK_NAME+" TEXT, "+NB_PAGES+" INTEGER, "+DESC+" TEXT, "+ID_USER+" INTEGER,"+ID_AUTHOR+" INTEGER , FOREIGN KEY ("+ID_USER+") REFERENCES "+TABLE_USER+"("+USER_ID+") ON DELETE CASCADE, FOREIGN KEY ("+ID_AUTHOR+") REFERENCES "+TABLE_AUTHOR+"("+AUTHOR_ID+") ON DELETE CASCADE )"
                 );
         Log.i("sql",sql3.toString());
         sqLiteDatabase.execSQL(sql3.toString());

@@ -5,6 +5,10 @@ public class Book {
     private int id;
     private String name;
 
+    private int nbPages;
+
+    private String desc;
+
 
     public int getId(){
         return id;
@@ -20,6 +24,22 @@ public class Book {
 
     public void setName(String n){
         name = n;
+    }
+
+    public void setNbPages(int i){
+        nbPages = i;
+    }
+
+    public  int  getNbPages(){
+        return nbPages;
+    }
+
+    public void setDesc(String t){
+        desc = t;
+    }
+
+    public String getDesc(){
+        return desc;
     }
 
 }

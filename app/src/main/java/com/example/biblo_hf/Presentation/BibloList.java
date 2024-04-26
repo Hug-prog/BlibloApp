@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 
@@ -29,9 +33,10 @@ public class BibloList extends AppCompatActivity {
         binding = ActivityBibloListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        // set Home View
         replaceFragment(new HomeFragment());
 
+        // switcher Fragments
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.toString()){
                 case "home":
@@ -47,20 +52,22 @@ public class BibloList extends AppCompatActivity {
             return true;
         });
 
+        // init repo
         userRepository = new UserRepository(SQLiteManager.instanceOfDatabase(this));
 
 
         // get current user
         getUser();
-        //Log.i("user",user.getName());
     }
 
-    private void replaceFragment(Fragment fragment){
+    public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout,fragment);
         fragmentTransaction.commit();
     }
+
+
 
     protected void getUser(){
         // get info player

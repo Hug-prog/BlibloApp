@@ -2,8 +2,8 @@
     <string name="app_name">Biblo_HF</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label">User List</string>
+    <string name="second_fragment_label">Add user</string>
     <string name="next">Next</string>
     <string name="previous">Create</string>
 
@@ -21,8 +21,19 @@
     <string name="title_fragment_author">Author</string>
     <string name="author_fragment_label">Author Fragment</string>
 
-    <string name="title_add_book">Add Books</string>
+    <string name="title_add_book">Add Book</string>
     <string name="title_bottom_fragment_add_author">Select authors</string>
+
+    <string-array name="emoticons">
+        <item>😀</item>
+        <item>😃</item>
+        <item>😄</item>
+        <item>😁</item>
+        <item>😆</item>
+        <item>😅</item>
+        <item>😂</item>
+        <item>🤣</item>
+    </string-array>
 
 
 </resources>

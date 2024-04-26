@@ -5,6 +5,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,9 +43,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
 
     public  BookRepository bookRepository;
-
-
-
 
     public AuthorRepository authorRepository;
 
@@ -78,6 +80,8 @@ public class HomeFragment extends Fragment {
         // get all books
         getAllBooks(activity.user.getId());
 
+
+        // if btn create author is selected
         binding.btnAddBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,22 +89,65 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
+        // if book is selected
+        binding.bookList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // get selected book
+                Book selectBook = (Book) binding.bookList.getItemAtPosition(position);
+
+                BookIdFragment bookIdFragment = new BookIdFragment();
+                Bundle args = new Bundle();
+                args.putInt("id",selectBook.getId());
+                bookIdFragment.setArguments(args);
+
+                activity.replaceFragment(bookIdFragment);
+            }
+        });
+
     }
 
-    public void getAllAuthors(int id){
-        authorArrayList =  authorRepository.getAuthors(id);
-    }
+    public void addBook(){
 
-    public void getAllBooks(int id){
-        bookArrayList =  bookRepository.getBooks(id);
-        addBooksInListView();
+        // create a bottom Dialog
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
+        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.fragment_add_book,null);
+        bottomSheetDialog.setContentView(view1);
+        bottomSheetDialog.show();
+
+        EditText editText =view1.findViewById(R.id.input_add_book);
+        EditText editTextNbPage =view1.findViewById(R.id.input_add_pages);
+        EditText editTextDesc =view1.findViewById(R.id.input_desc);
+
+        Button button = view1.findViewById(R.id.btn_add_b);
+        Spinner spinner = view1.findViewById(R.id.select_list_authors);
+
+        addAuthorInSpinner(spinner);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BibloList activity = (BibloList) getActivity();
+
+                book.setName(editText.getText().toString());
+                book.setDesc(editTextDesc.getText().toString());
+                book.setNbPages(Integer.parseInt(editTextNbPage.getText().toString()));
+
+
+                createBook();
+
+                getAllBooks(activity.user.getId());
+
+                bottomSheetDialog.dismiss();
+            }
+        });
     }
 
     public void addBooksInListView(){
         BookAdapterData bookAdapterData = new BookAdapterData(getContext(),R.layout.adapter_book_layout,bookArrayList);
         binding.bookList.setAdapter(bookAdapterData);
     }
-
 
     public void addAuthorInSpinner(Spinner spinner){
         SpinnerAuthorAdapterData adapterData = new SpinnerAuthorAdapterData(getContext(),R.layout.spinner_adapter_layout,authorArrayList);
@@ -119,38 +166,21 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    public void addBook(){
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
-        View view1 = LayoutInflater.from(getContext()).inflate(R.layout.fragment_add_book,null);
-        bottomSheetDialog.setContentView(view1);
-        bottomSheetDialog.show();
 
-        EditText editText =view1.findViewById(R.id.input_add_book);
-        Button button = view1.findViewById(R.id.btn_add_b);
-        Spinner spinner = view1.findViewById(R.id.select_list_authors);
-
-        addAuthorInSpinner(spinner);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                BibloList activity = (BibloList) getActivity();
-
-                book.setName(editText.getText().toString());
-
-                createBook();
-
-                getAllBooks(activity.user.getId());
-
-                bottomSheetDialog.dismiss();
-            }
-        });
-    }
-
+    // db
 
     public void createBook(){
         BibloList activity = (BibloList) getActivity();
         bookRepository.createBook(book,activity.user,author);
+    }
+
+    public void getAllAuthors(int id){
+        authorArrayList =  authorRepository.getAuthors(id);
+    }
+
+    public void getAllBooks(int id){
+        bookArrayList =  bookRepository.getBooks(id);
+        addBooksInListView();
     }
 
 

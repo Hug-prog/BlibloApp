@@ -31,8 +31,10 @@ public class AdapterData extends ArrayAdapter<Profile> {
 
 
         TextView textView = convertView.findViewById(R.id.customText);
+        TextView textView1 = convertView.findViewById(R.id.emoji);
 
         textView.setText(profile.getName());
+        textView1.setText(profile.getEmojiCode());
 
         return  convertView;
     }

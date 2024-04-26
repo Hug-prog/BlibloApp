@@ -17,6 +17,7 @@ public class UserRepository {
     public static final String TABLE_NAME = "users";
     public static final String USER_ID = "id";
     public static final String USER_NAME = "name";
+    public static final String Emoji = "emojiCode";
 
     public UserRepository(SQLiteManager sqLiteManager) {
         this.sqLiteManager = sqLiteManager;
@@ -27,6 +28,7 @@ public class UserRepository {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(USER_NAME, user.getName());
+        contentValues.put(Emoji,user.getEmojiCode());
 
         sqLiteDatabase.insert(TABLE_NAME,null,contentValues);
         Log.i("insert","user created");
@@ -41,6 +43,11 @@ public class UserRepository {
         sqLiteDatabase.update(TABLE_NAME,null, USER_ID+" =? ",new String[]{String.valueOf(id)});
     }
 
+    public void deleteUser(int userId){
+        SQLiteDatabase sqLiteDatabase = sqLiteManager.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_NAME,"id=?",new String[]{String.valueOf(userId)});
+    }
+
     public ArrayList<Profile> getUsers(){
         SQLiteDatabase sqLiteDatabase = sqLiteManager.getReadableDatabase();
         Cursor result = sqLiteDatabase.rawQuery(" SELECT * FROM "+TABLE_NAME,null);
@@ -50,6 +57,7 @@ public class UserRepository {
             Profile profile = new Profile();
             profile.setId(result.getInt(0));
             profile.setName(result.getString(1));
+            profile.setEmojiCode(result.getString(2));
 
             arrayList.add(profile);
         }
@@ -64,6 +72,7 @@ public class UserRepository {
         while (result.moveToNext()) {
             profile.setId(result.getInt(0));
             profile.setName(result.getString(1));
+            profile.setEmojiCode(result.getString(2));
         }
         return profile;
     }

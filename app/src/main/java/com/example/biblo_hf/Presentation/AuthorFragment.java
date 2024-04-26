@@ -11,12 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.example.biblo_hf.Db.SQLiteManager;
 import com.example.biblo_hf.Model.Author;
+import com.example.biblo_hf.Model.Book;
 import com.example.biblo_hf.R;
 import com.example.biblo_hf.Repository.AuthorRepository;
 import com.example.biblo_hf.Util.AdapterData;
@@ -46,10 +48,14 @@ public class AuthorFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        BibloList activity = (BibloList) getActivity();
+
+        // init repo
         authorRepository = new AuthorRepository(SQLiteManager.instanceOfDatabase(getContext()));
 
         getAllAuthors();
 
+        // if btn create author is selected
         binding.btnAddAuthor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,9 +64,27 @@ public class AuthorFragment extends Fragment {
             }
         });
 
+        binding.authorsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // get selected book
+                Author selectAuthor = (Author) binding.authorsList.getItemAtPosition(position);
+
+                // set data to AuthorIdFragment
+                AuthorIdFragment authorIdFragment = new AuthorIdFragment();
+                Bundle args = new Bundle();
+                args.putInt("id",selectAuthor.getId());
+                authorIdFragment.setArguments(args);
+
+                activity.replaceFragment(authorIdFragment);
+            }
+        });
+
     }
 
     public void addAuthor(){
+
+        // create a bottom Dialog
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
         View view1 = LayoutInflater.from(getContext()).inflate(R.layout.fragment_add_author,null);
         bottomSheetDialog.setContentView(view1);
@@ -82,7 +106,6 @@ public class AuthorFragment extends Fragment {
 
     public void getAllAuthors(){
         BibloList activity = (BibloList) getActivity();
-        Log.i("id", String.valueOf(activity.user.getId()));
         authorArrayList =  authorRepository.getAuthors(activity.user.getId());
         addAuthorsInListView();
     }

@@ -17,6 +17,9 @@ public class BookRepository {
     public static final String TABLE_BOOK = "books";
     public static final String BOOK_ID = "id";
     public static final String BOOK_NAME = "name";
+    public static final String NB_PAGES = "nb_pages";
+    public static final String DESC = "desc";
+
     public static final String ID_USER = "user_id";
     public static final String ID_AUTHOR = "author_id";
 
@@ -28,6 +31,8 @@ public class BookRepository {
         SQLiteDatabase sqLiteDatabase = sqLiteManager.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(BOOK_NAME, book.getName());
+        contentValues.put(NB_PAGES,book.getNbPages());
+        contentValues.put(DESC,book.getDesc());
         contentValues.put(ID_USER,profile.getId());
         contentValues.put(ID_AUTHOR,author.getId());
 
@@ -35,9 +40,42 @@ public class BookRepository {
         Log.i("insert","authors created");
     }
 
+    public void deleteBook(int bookId){
+        SQLiteDatabase sqLiteDatabase = sqLiteManager.getWritableDatabase();
+        sqLiteDatabase.delete(TABLE_BOOK,"id=?",new String[]{String.valueOf(bookId)});
+    }
+
+
+    public void updateBook(Book book){
+        SQLiteDatabase sqLiteDatabase = sqLiteManager.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DESC, book.getDesc());
+        contentValues.put(NB_PAGES, book.getNbPages());
+
+        sqLiteDatabase.update(TABLE_BOOK,contentValues, BOOK_ID+" =? ",new String[]{String.valueOf(book.getId())});
+    }
+
+
     public ArrayList<Book> getBooks(int userId){
         SQLiteDatabase sqLiteDatabase = sqLiteManager.getReadableDatabase();
         Cursor result = sqLiteDatabase.rawQuery(" SELECT * FROM "+TABLE_BOOK+" WHERE "+ ID_USER + " = "+userId,null);
+        ArrayList<Book> arrayList = new ArrayList<>();
+
+        while (result.moveToNext()){
+            Book book = new Book();
+            book.setId(result.getInt(0));
+            book.setName(result.getString(1));
+
+            arrayList.add(book);
+        }
+
+        return arrayList;
+    }
+
+    public  ArrayList<Book> getBooksByAuthorId(int authorId,int userId){
+        SQLiteDatabase sqLiteDatabase = sqLiteManager.getReadableDatabase();
+        Cursor result = sqLiteDatabase.rawQuery(" SELECT * FROM "+TABLE_BOOK+" WHERE "+ ID_AUTHOR + " = "+authorId+" AND "+ID_USER+" = "+userId,null);
         ArrayList<Book> arrayList = new ArrayList<>();
 
         while (result.moveToNext()){
@@ -58,9 +96,12 @@ public class BookRepository {
         while (result.moveToNext()) {
             book.setId(result.getInt(0));
             book.setName(result.getString(1));
+            book.setNbPages(result.getInt(2));
+            book.setDesc(result.getString(3));
         }
         return book;
     }
+
 
 
 }

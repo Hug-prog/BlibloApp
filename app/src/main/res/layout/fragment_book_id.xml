@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Presentation.BookIdFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btn_come_back"
+                android:layout_width="160dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.6"
+                android:text="Come back" />
+
+            <Space
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_update_book"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="Update" />
+
+            <Space
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_delete_book"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_weight="0.6"
+                android:text="delete" />
+
+
+
+
+        </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/book_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:text="book"
+                android:textSize="40dp" />
+
+
+
+
+
+
+
+
+        <TextView
+            android:id="@+id/title_nb_pages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Nb of pages : " />
+
+        <TextView
+            android:id="@+id/nb_pages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:id="@+id/title_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description : "
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:id="@+id/title_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Author : "
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:id="@+id/authorId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Author"
+            android:layout_marginTop="10dp"
+
+            android:layout_marginLeft="20dp"
+            />
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -5,6 +5,8 @@ public class Profile {
     private int id;
     private String name;
 
+    private String emojiCode;
+
 
     public int getId(){
         return id;
@@ -21,6 +23,11 @@ public class Profile {
     public void setName(String n){
         name = n;
     }
+
+    public String getEmojiCode(){return emojiCode;}
+
+    public void setEmojiCode(String e){emojiCode = e;}
+
 
 
 }

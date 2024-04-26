@@ -47,7 +47,7 @@ public class FirstFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        // set db
+        // init repo
         userRepository = new UserRepository(SQLiteManager.instanceOfDatabase(getContext()));
 
         //get all users
@@ -58,7 +58,6 @@ public class FirstFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Profile selectProfile = (Profile) binding.userList.getItemAtPosition(position);
-                //Log.i("item", String.valueOf(selectProfile.getId()));
 
                 // select BibloList activity
                 Intent intent = new Intent(view.getContext(), BibloList.class);
